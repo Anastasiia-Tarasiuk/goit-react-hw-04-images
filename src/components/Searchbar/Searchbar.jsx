@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Formik, Form, Field } from "formik";
-// import { Header } from "./Searchbar.styled";
+import { Header, SearchFormButton, SearchFormButtonLabel } from "./Searchbar.styled";
 
 export class Searchbar extends Component {
 
@@ -11,15 +11,15 @@ export class Searchbar extends Component {
 
     render() {
         return (
-            <header>
+            <Header>
                 <Formik
                     initialValues={{ inputText: '' }}
                     onSubmit={this.handleSubmit}
                 >
-                    <Form className="form">
-                        <button type="submit" className="button">
-                            <span className="button-label">Search</span>
-                        </button>
+                    <Form>
+                        <SearchFormButton type="submit">
+                            <SearchFormButtonLabel>Search</SearchFormButtonLabel>
+                        </SearchFormButton>
 
                         <Field 
                             name="inputText"
@@ -31,7 +31,7 @@ export class Searchbar extends Component {
                         />
                     </Form>
                 </Formik>
-            </header>
+            </Header>
         )
     }
 }
