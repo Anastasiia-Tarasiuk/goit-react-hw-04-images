@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import { apiSearch } from './services/API';
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from './ImageGallery/ImageGallery';
+import { Button } from "./Button/Button";
+import { Loader } from './Loader/Loader';
 
 
 export class App extends Component {
 
   state = {
     searchValue: '',
-    id: '',
-    webformatURL: '',
-    largeImageURL: '',
     pictures: [],
   }
 
@@ -19,8 +18,7 @@ export class App extends Component {
       const pictures = await apiSearch(searchValue);
       this.setState(prevState => ({
           pictures: [...prevState.pictures, ...pictures.hits]
-        }))
-        // console.log(pictures);      
+        }))      
     } catch (error) {
       console.log(error);   
     }
@@ -37,7 +35,11 @@ export class App extends Component {
         }}
       >
         <Searchbar onSubmit={this.picturesForRender} />
+        <Loader/>
         <ImageGallery items={this.state.pictures} />
+        {this.state.pictures.length > 0 &&
+          <Button onClick={this.picturesForRender} />}
+        
       </div>
     )
   }
