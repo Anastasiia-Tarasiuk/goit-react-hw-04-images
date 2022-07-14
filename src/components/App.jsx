@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { apiSearch } from './services/API';
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -12,19 +11,49 @@ export class App extends Component {
     searchValue: '',
     pictures: [],
     isLoading: false,
+    page: 1,
   }
 
-  picturesForRender = async (searchValue) => {
-    this.setState({ isLoading: true });
-    try {
-      const pictures = await apiSearch(searchValue);
-      this.setState(prevState => ({
-        pictures: [...prevState.pictures, ...pictures.hits],
-        isLoading: false,  
-      }))      
-    } catch (error) {
-      console.log(error);   
+  componentDidUpdate(_, prevState) {
+    if (prevState.searchValue !== this.state.searchValue) {
+      this.setState({
+        isLoading: true,
+        pictures: [],
+        page: 1,
+      });
+      this.apiResponse(this.state.page);
     }
+
+    if (prevState.page !== this.state.page) {
+      this.setState({
+        isLoading: true,
+      });
+      this.apiResponse(this.state.page);
+    }
+  }
+
+  apiResponse = async (page) => {
+    try {
+        const pictures = await apiSearch(this.state.searchValue, page);
+        this.setState(prevState => ({
+          pictures: [...prevState.pictures, ...pictures.hits],
+          isLoading: false,  
+        }))      
+      } catch (error) {
+        console.log(error);   
+      }
+  }
+
+  getItems = (searchValue) => {
+    this.setState({
+      searchValue,
+    });
+  }
+
+  handleLoadMore = () => {
+    this.setState( prevState => ({
+      page: prevState.page + 1,
+    }))
   }
 
   render() {
@@ -37,12 +66,12 @@ export class App extends Component {
           paddingBottom: 24,
         }}
       >
-        <Searchbar onSubmit={this.picturesForRender} />
-        {this.state.isLoading && < Loader />}
+        <Searchbar onSubmit={this.getItems} />
         <ImageGallery items={this.state.pictures} />
+        {this.state.isLoading &&
+          < Loader />}
         {this.state.pictures.length > 0 &&
-          <Button onClick={this.picturesForRender} />}
-        
+          <Button onClick={this.handleLoadMore} />}        
       </div>
     )
   }

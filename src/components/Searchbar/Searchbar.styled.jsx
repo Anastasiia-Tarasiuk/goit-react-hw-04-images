@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { Form, Field } from "formik";
+import { GoSearch } from 'react-icons/go';
 
 export const Header = styled.header`
     top: 0;
@@ -23,7 +25,6 @@ export const SearchFormButton = styled.button`
     width: 48px;
     height: 48px;
     border: 0;
-    
     background-size: 40%;
     background-repeat: no-repeat;
     background-position: center;
@@ -37,15 +38,33 @@ export const SearchFormButton = styled.button`
     }
 `
 
-export const SearchFormButtonLabel = styled.span`
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    clip-path: inset(50%);
-    border: 0;
+export const SearchForm = styled(Form)`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 3px;
+  overflow: hidden;
 `
 
+export const SearchFormInput = styled(Field)`
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    font: inherit;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    &::placeholder {
+        font: inherit;
+        font-size: 18px;
+    }
+`
+export const Icon = styled(GoSearch)`
+    width: 100%;
+    height: auto;
+`

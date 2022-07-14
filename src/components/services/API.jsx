@@ -3,11 +3,10 @@ import axios from "axios";
 
 axios.defaults.baseURL = 'https://pixabay.com/';
 const API_KEY = '27618691-16873fc26bb6498af6bbdd835';
-let page = 1;
 const perPage = 12;
 
 
-export const apiSearch = async (searchValue) => {
+export const apiSearch = async (searchValue, page) => {
     const response = await axios(`api/`, {
         params: {
             key: API_KEY,

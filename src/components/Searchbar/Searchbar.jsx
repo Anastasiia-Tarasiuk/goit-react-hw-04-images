@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Formik, Form, Field } from "formik";
-import { Header, SearchFormButton, SearchFormButtonLabel } from "./Searchbar.styled";
+import { Formik } from "formik";
+import { Header, SearchFormButton, Icon, SearchForm, SearchFormInput } from "./Searchbar.styled";
 
 export class Searchbar extends Component {
 
     handleSubmit = (values, actions) => {
         this.props.onSubmit(values.inputText);
-        actions.resetForm();        
+        actions.resetForm();  
     } 
 
     render() {
@@ -16,20 +16,20 @@ export class Searchbar extends Component {
                     initialValues={{ inputText: '' }}
                     onSubmit={this.handleSubmit}
                 >
-                    <Form>
+                    <SearchForm>
                         <SearchFormButton type="submit">
-                            <SearchFormButtonLabel>Search</SearchFormButtonLabel>
+                            <Icon/>
                         </SearchFormButton>
 
-                        <Field 
+                        <SearchFormInput
                             name="inputText"
                             className="input"
                             type="text"
-                            // autocomplete="off"
-                            // autofocus
+                            autocomplete="off"
+                            autofocus
                             placeholder="Search images and photos"
                         />
-                    </Form>
+                    </SearchForm>
                 </Formik>
             </Header>
         )
