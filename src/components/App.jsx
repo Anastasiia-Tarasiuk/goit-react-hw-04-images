@@ -14,6 +14,7 @@ export class App extends Component {
     isLoading: false,
     page: 1,
     showModal: false,
+    loadMore: false,
     largeImg: '',
     alt: '',
   }
@@ -39,6 +40,13 @@ export class App extends Component {
   apiResponse = async (page) => {
     try {
       const pictures = await apiSearch(this.state.searchValue, page);
+
+      if ((pictures.totalHits - this.state.pictures.length) > pictures.hits.length) {
+        this.setState({ loadMore: true })
+      } else {
+        this.setState({ loadMore: false })
+      }
+        
       this.setState(prevState => ({
         pictures: [...prevState.pictures, ...pictures.hits],
         isLoading: false,  
@@ -82,7 +90,7 @@ export class App extends Component {
         <ImageGallery items={this.state.pictures} onClick={this.toggleModal} />
         {this.state.isLoading &&
           < Loader />}
-        {this.state.pictures.length > 0 &&
+        {this.state.loadMore &&
           <Button onClick={this.handleLoadMore} />}  
         {this.state.showModal &&
           <Modal onClose={this.toggleModal} largeImg={this.state.largeImg} alt={this.state.alt}/>        

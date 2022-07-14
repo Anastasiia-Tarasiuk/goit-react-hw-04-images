@@ -1,10 +1,8 @@
 import axios from "axios";
-// import React, { Component } from "react";
 
 axios.defaults.baseURL = 'https://pixabay.com/';
 const API_KEY = '27618691-16873fc26bb6498af6bbdd835';
 const perPage = 12;
-
 
 export const apiSearch = async (searchValue, page) => {
     const response = await axios(`api/`, {
