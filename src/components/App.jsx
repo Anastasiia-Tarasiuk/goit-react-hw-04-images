@@ -4,6 +4,7 @@ import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from "./Button/Button";
 import { Loader } from './Loader/Loader';
+import { Modal } from "./Modal/Modal";
 
 export class App extends Component {
 
@@ -12,6 +13,9 @@ export class App extends Component {
     pictures: [],
     isLoading: false,
     page: 1,
+    showModal: false,
+    largeImg: '',
+    alt: '',
   }
 
   componentDidUpdate(_, prevState) {
@@ -34,16 +38,24 @@ export class App extends Component {
 
   apiResponse = async (page) => {
     try {
-        const pictures = await apiSearch(this.state.searchValue, page);
-        this.setState(prevState => ({
-          pictures: [...prevState.pictures, ...pictures.hits],
-          isLoading: false,  
-        }))      
-      } catch (error) {
-        console.log(error);   
-      }
+      const pictures = await apiSearch(this.state.searchValue, page);
+      this.setState(prevState => ({
+        pictures: [...prevState.pictures, ...pictures.hits],
+        isLoading: false,  
+      }))      
+    } catch (error) {
+      console.log(error);   
+    }     
   }
 
+  toggleModal = (img, title) => {
+      this.setState({      
+        showModal: !this.state.showModal,
+        largeImg: img,
+        alt: title,
+      })
+  }
+  
   getItems = (searchValue) => {
     this.setState({
       searchValue,
@@ -67,11 +79,14 @@ export class App extends Component {
         }}
       >
         <Searchbar onSubmit={this.getItems} />
-        <ImageGallery items={this.state.pictures} />
+        <ImageGallery items={this.state.pictures} onClick={this.toggleModal} />
         {this.state.isLoading &&
           < Loader />}
         {this.state.pictures.length > 0 &&
-          <Button onClick={this.handleLoadMore} />}        
+          <Button onClick={this.handleLoadMore} />}  
+        {this.state.showModal &&
+          <Modal onClose={this.toggleModal} largeImg={this.state.largeImg} alt={this.state.alt}/>        
+        }
       </div>
     )
   }
