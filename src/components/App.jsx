@@ -24,11 +24,10 @@ export class App extends Component {
       this.setState({
         isLoading: true,
         pictures: [],
-        page: 1,
       });
       this.apiResponse(this.state.page);
     }
-
+    
     if (prevState.page !== this.state.page) {
       this.setState({
         isLoading: true,
