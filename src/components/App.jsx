@@ -5,6 +5,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from "./Button/Button";
 import { Loader } from './Loader/Loader';
 import { Modal } from "./Modal/Modal";
+import { ErrorMsg } from "./Error/Error";
 
 export class App extends Component {
 
@@ -17,8 +18,9 @@ export class App extends Component {
     loadMore: false,
     largeImg: '',
     alt: '',
+    error: null,
   }
-
+  
   componentDidUpdate(_, prevState) {
     if (prevState.searchValue !== this.state.searchValue) {
       this.setState({
@@ -39,7 +41,16 @@ export class App extends Component {
   apiResponse = async (page) => {
     try {
       const pictures = await apiSearch(this.state.searchValue, page);
+      console.log(this.state.searchValue)
 
+      const msgForWrongSearch = `There is no match for "${this.state.searchValue}".`
+      
+      if (pictures.totalHits === 0) {
+        this.setState({ error: msgForWrongSearch });
+      } else {
+        this.setState({ error: null });
+      }
+        
       if ((pictures.totalHits - this.state.pictures.length) > pictures.hits.length) {
         this.setState({ loadMore: true })
       } else {
@@ -48,10 +59,15 @@ export class App extends Component {
         
       this.setState(prevState => ({
         pictures: [...prevState.pictures, ...pictures.hits],
-        isLoading: false,  
-      }))      
+      }))    
+      
     } catch (error) {
+      const msgForApiBadRespond = "Something went wrong."
+      this.setState({ error: msgForApiBadRespond });
       console.log(error);   
+
+    } finally {
+      this.setState({isLoading: false });
     }     
   }
 
@@ -76,6 +92,8 @@ export class App extends Component {
   }
 
   render() {
+    const { isLoading, error, loadMore, showModal, alt, largeImg, pictures } = this.state;
+
     return (
       <div
         style={{
@@ -86,13 +104,14 @@ export class App extends Component {
         }}
       >
         <Searchbar onSubmit={this.getItems} />
-        <ImageGallery items={this.state.pictures} onClick={this.toggleModal} />
-        {this.state.isLoading &&
+        {error && <ErrorMsg msg={error} />}
+        <ImageGallery items={pictures} onClick={this.toggleModal} />
+        {isLoading &&
           < Loader />}
-        {this.state.loadMore &&
+        {loadMore &&
           <Button onClick={this.handleLoadMore} />}  
-        {this.state.showModal &&
-          <Modal onClose={this.toggleModal} largeImg={this.state.largeImg} alt={this.state.alt}/>        
+        {showModal &&
+          <Modal onClose={this.toggleModal} largeImg={largeImg} alt={alt}/>        
         }
       </div>
     )
