@@ -30,7 +30,7 @@ export class App extends Component {
       this.apiResponse(this.state.page);
     }
     
-    if (prevState.page !== this.state.page) {
+    if (this.state.searchValue === prevState.searchValue && prevState.page !== this.state.page) {
       this.setState({
         isLoading: true,
       });
@@ -41,7 +41,6 @@ export class App extends Component {
   apiResponse = async (page) => {
     try {
       const pictures = await apiSearch(this.state.searchValue, page);
-      console.log(this.state.searchValue)
 
       const msgForWrongSearch = `There is no match for "${this.state.searchValue}".`
       
@@ -82,6 +81,7 @@ export class App extends Component {
   getItems = (searchValue) => {
     this.setState({
       searchValue,
+      page: 1,
     });
   }
 
