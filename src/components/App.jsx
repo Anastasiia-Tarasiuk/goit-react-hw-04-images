@@ -18,26 +18,26 @@ export function App() {
   const [alt, setAlt] = useState('');
   const [error, setError] = useState(null);
 
-  useEffect(() => { 
-    if (searchValue === "") {
-      return;
-    }
+  // useEffect(() => { 
+  //   if (searchValue === "") {
+  //     return;
+  //   }
 
-    setPictures([]);
-    setIsLoading(true);
-    apiResponse(page);
+  //   setPictures([]);
+  //   setIsLoading(true);
+  //   apiResponse(page);
        
-  }, [searchValue]);
+  // }, [searchValue]);
 
-  useEffect(() => { 
-    if (page === 1) {
-      return;
-    }
+  // useEffect(() => { 
+  //   if (page === 1) {
+  //     return;
+  //   }
 
-    setIsLoading(true);
-    apiResponse(page);
+  //   setIsLoading(true);
+  //   apiResponse(page);
 
-  }, [page]);
+  // }, [page]);
 
 
   const apiResponse = async (page) => {
@@ -129,22 +129,22 @@ export function App() {
 //     error: null,
 //   }
   
-//   componentDidUpdate(_, prevState) {
-//     if (prevState.searchValue !== this.state.searchValue) {
-//       this.setState({
-//         isLoading: true,
-//         pictures: [],
-//       });
-//       this.apiResponse(this.state.page);
-//     }
+  // componentDidUpdate(_, prevState) {
+  //   if (prevState.searchValue !== this.state.searchValue) {
+  //     this.setState({
+  //       isLoading: true,
+  //       pictures: [],
+  //     });
+  //     this.apiResponse(this.state.page);
+  //   }
     
-//     if (this.state.searchValue === prevState.searchValue && prevState.page !== this.state.page) {
-//       this.setState({
-//         isLoading: true,
-//       });
-//       this.apiResponse(this.state.page);
-//     }
-//   }
+  //   if (this.state.searchValue === prevState.searchValue && prevState.page !== this.state.page) {
+  //     this.setState({
+  //       isLoading: true,
+  //     });
+  //     this.apiResponse(this.state.page);
+  //   }
+  // }
 
 //   apiResponse = async (page) => {
 //     try {
