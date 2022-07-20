@@ -21,7 +21,7 @@ export function App() {
   useEffect(() => { 
     
     if (searchValue === "") {
-      const msgForEmptySearch = "Type something";
+      const msgForEmptySearch = "Type something.";
       setError(msgForEmptySearch);
       setLoadMore(false);
       return;
@@ -29,17 +29,9 @@ export function App() {
     
     setError(null);
     setIsLoading(true);
-    apiResponse();
 
-    /* eslint-disable */ 
-  }, [searchValue, page]);
-  
-  async function apiResponse() {
-    try {
-      if (searchValue !== "") {
-        
-        const picturesFromApi = await apiSearch(searchValue, page);
-  
+    apiSearch(searchValue, page)
+      .then(picturesFromApi => {
         const msgForWrongSearch = `There is no match for "${searchValue}".`
         
         if (picturesFromApi.totalHits === 0) {
@@ -54,17 +46,19 @@ export function App() {
           setLoadMore(false);
         }
 
-        setPictures([...pictures, ...picturesFromApi.hits]);        
-      }
-    } catch (error) {
-      const msgForApiBadRespond = "Something went wrong.";
-      setError(msgForApiBadRespond);
-      console.log(error);   
-
-    } finally {
-      setIsLoading(false);
-    }     
-  }
+        setPictures(prev => [...prev, ...picturesFromApi.hits]); 
+      })
+      .catch(error => {
+        const msgForApiBadRespond = "Something went wrong.";
+        setError(msgForApiBadRespond);
+        console.log(error); 
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  
+  }, [searchValue, page]);
+  
 
   const toggleModal = (img, title) => {
     setShowModal(!showModal);
