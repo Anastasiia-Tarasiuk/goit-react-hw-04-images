@@ -27,9 +27,8 @@ export function App() {
     setIsLoading(true);
     apiResponse();
 
-  }, [searchValue, page, apiResponse]);
+  }, [searchValue, page]);
   
-
   async function apiResponse() {
     try {
       if (searchValue !== "") {
