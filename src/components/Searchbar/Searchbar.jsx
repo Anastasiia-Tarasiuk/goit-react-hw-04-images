@@ -6,7 +6,7 @@ import { Header, SearchFormButton, Icon, SearchForm, SearchFormInput } from "./S
 export const Searchbar = ({onSubmit}) => {
 
    function handleSubmit(values, actions) {
-        onSubmit(values.inputText);
+        onSubmit(values.inputText.trim());
         actions.resetForm();  
     } 
     
@@ -20,7 +20,6 @@ export const Searchbar = ({onSubmit}) => {
                     <SearchFormButton type="submit">
                         <Icon/>
                     </SearchFormButton>
-
                     <SearchFormInput
                         name="inputText"
                         className="input"

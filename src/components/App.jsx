@@ -21,9 +21,13 @@ export function App() {
   useEffect(() => { 
     
     if (searchValue === "") {
+      const msgForEmptySearch = "Type something";
+      setError(msgForEmptySearch);
+      setLoadMore(false);
       return;
     }
     
+    setError(null);
     setIsLoading(true);
     apiResponse();
 
