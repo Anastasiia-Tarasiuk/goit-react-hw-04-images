@@ -9,6 +9,7 @@ export const Modal = ({onClose, largeImg, alt}) => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
+        /* eslint-disable */
     }, [])
     
 
