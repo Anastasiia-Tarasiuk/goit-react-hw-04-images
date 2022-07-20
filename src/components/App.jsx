@@ -49,8 +49,7 @@ export function App() {
           setLoadMore(false);
         }
 
-        setPictures([...pictures, ...picturesFromApi.hits]);
-        
+        setPictures([...pictures, ...picturesFromApi.hits]);        
       }
     } catch (error) {
       const msgForApiBadRespond = "Something went wrong.";
