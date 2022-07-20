@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { apiSearch } from './services/API';
+import { apiSearch, initials } from './services/API';
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from "./Button/Button";
 import { Loader } from './Loader/Loader';
 import { Modal } from "./Modal/Modal";
 import { ErrorMsg } from "./Error/Error";
+
 
 export function App() {
   const [searchValue, setSearchValue] = useState('');
@@ -30,7 +31,6 @@ export function App() {
     setError(null);
     setIsLoading(true);
 
-
     apiSearch(searchValue, page)
       .then(picturesFromApi => {
         const msgForWrongSearch = `There is no match for "${searchValue}".`
@@ -41,16 +41,13 @@ export function App() {
           setError(null);
         }
         
-        console.log(picturesFromApi.totalHits);
-        console.log(picturesFromApi.hits.length);
-
-        if (picturesFromApi.hits.length === 12) {
+        if (picturesFromApi.totalHits - initials.PER_PAGE*(page - 1) > initials.PER_PAGE) {
           setLoadMore(true);
         } else {
           setLoadMore(false);
         }
 
-        setPictures(prev => [...prev, ...picturesFromApi.hits]); 
+        setPictures(prevPictures => [...prevPictures, ...picturesFromApi.hits]); 
       })
       .catch(error => {
         const msgForApiBadRespond = "Something went wrong.";
@@ -63,17 +60,18 @@ export function App() {
   
   }, [searchValue, page]);
   
-
   const toggleModal = (img, title) => {
     setShowModal(!showModal);
     setLargeImg(img);
     setAlt(title);
   }
 
-  const getItems = (searchValue) => {
-    setPictures([]);
-    setPage(1);
-    setSearchValue(searchValue);
+  const getItems = (query) => {
+    if (searchValue !== query) {
+      setPictures([]);
+      setPage(1);
+      setSearchValue(query);
+    }
   }
 
   const handleLoadMore = () => {

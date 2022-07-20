@@ -4,20 +4,21 @@ import { Overlay, ModalEl } from "./Modal.styled"
 export const Modal = ({onClose, largeImg, alt}) => {
 
     useEffect(() => {
+
+        const handleKeyDown = e => {
+            if (e.code === "Escape") {
+                onClose(largeImg);
+            }
+        }
+        
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-        /* eslint-disable */
-    }, [])
-    
 
-    const handleKeyDown = e => {
-        if (e.code === "Escape") {
-            onClose(largeImg);
-        }
-    }
+    }, [onClose, largeImg])
+    
 
     const handleBackdropClick = e => {
         if (e.currentTarget === e.target) {
