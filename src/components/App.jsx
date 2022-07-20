@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { apiSearch } from './services/API';
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -28,7 +28,7 @@ export function App() {
     apiResponse();
 
   
-  }, [searchValue, page]);
+  }, [searchValue, page, apiResponse]);
   
 
   async function apiResponse() {
