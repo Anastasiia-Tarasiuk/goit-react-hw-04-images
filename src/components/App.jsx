@@ -30,6 +30,7 @@ export function App() {
     setError(null);
     setIsLoading(true);
 
+
     apiSearch(searchValue, page)
       .then(picturesFromApi => {
         const msgForWrongSearch = `There is no match for "${searchValue}".`
@@ -39,8 +40,11 @@ export function App() {
         } else {
           setError(null);
         }
-          
-        if ((picturesFromApi.totalHits - pictures.length) > picturesFromApi.hits.length) {
+        
+        console.log(picturesFromApi.totalHits);
+        console.log(picturesFromApi.hits.length);
+
+        if (picturesFromApi.hits.length === 12) {
           setLoadMore(true);
         } else {
           setLoadMore(false);
