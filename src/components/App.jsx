@@ -26,7 +26,7 @@ export function App() {
     
     setIsLoading(true);
     apiResponse();
-
+  /* eslint-disable no-eval */
   }, [searchValue, page]);
   
   async function apiResponse() {
