@@ -1,4 +1,3 @@
-/* eslint-disable */ 
 import { useState, useEffect } from "react";
 import { apiSearch } from './services/API';
 import { Searchbar } from "./Searchbar/Searchbar";
@@ -27,7 +26,8 @@ export function App() {
     
     setIsLoading(true);
     apiResponse();
- 
+
+    /* eslint-disable */ 
   }, [searchValue, page]);
   
   async function apiResponse() {
