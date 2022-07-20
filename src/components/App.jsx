@@ -27,7 +27,6 @@ export function App() {
     setIsLoading(true);
     apiResponse();
 
-  
   }, [searchValue, page, apiResponse]);
   
 
